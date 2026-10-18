@@ -11,8 +11,8 @@
     "HUD"
   ],
   "hero_images": [
-    "/media/home/hero-1.jpg",
-    "/media/home/hero-2.jpg"
+    "/media/home/hero-1.png",
+    "/media/home/hero-2.png"
   ],
   "intro_heading": "Hi, I'm Ashish, an Indian designer that loves to experiment",
   "intro_text": "Based in Turin, I am a **Visual Designer** specializing in automotive UX/UI and **HMI systems**.",
@@ -30,7 +30,7 @@
       "role": "Freelance"
     }
   ],
-  "footer_image": "/media/home/footer.jpg",
+  "footer_image": "/media/home/footer.jpeg",
   "contact_heading": "LET'S GET IN TOUCH",
   "socials": [
     {
