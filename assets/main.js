@@ -254,7 +254,7 @@
     var io = new IntersectionObserver(function (es) {
       es.forEach(function (e) { if (!e.isIntersecting) return; io.unobserve(e.target); var f = jobs.get(e.target); if (f) f(); });
     }, { rootMargin: "0px 0px -8% 0px", threshold: 0 });
-    var queue = function (el, fn) { if (!el) return; jobs.set(el, fn); io.observe(el); };
+    var queue = function (el, fn) { if (!el || !document.body.classList.contains("home")) return; jobs.set(el, fn); io.observe(el); };
     var all = function (sel) { return Array.prototype.slice.call(document.querySelectorAll(sel)); };
 
     /* hero */
@@ -288,11 +288,13 @@
     function scrub() {
       var vh = innerHeight, maxS = Math.max(0, root.scrollHeight - vh);
       imgs.forEach(function (o) {
+        if (o.done) return;
         var r = o.el.getBoundingClientRect(), w = o.el.offsetWidth, h = o.el.offsetHeight;
         var startTop = vh * 0.99;
         var endTop = Math.max(vh * 0.58, (r.top + scrollY - maxS) + 18);
         var t = clamp((startTop - r.top) / Math.max(1, startTop - endTop), 0, 1), e = ease(t);
         var pw = 0.22 + 0.78 * e, ph = 0.3 + 0.7 * e;
+        if (t >= 1 && !document.body.classList.contains("home")) o.done = true;
         o.el.style.clipPath = t >= 1 ? "none" : "inset(0 " + ((1 - pw) * 100).toFixed(2) + "% " + ((1 - ph) * 100).toFixed(2) + "% 0)";
         var show = t > 0.02 && t < 0.995;
         o.x.style.opacity = o.y.style.opacity = show ? 1 : 0;
@@ -353,20 +355,24 @@
     document.title = p.title + " - Projects";
     $("#crumb").textContent = p.title;
     page.innerHTML =
-      '<section class="p-head"><div class="p-title"><div id="logo"></div><h1>' + esc(p.title) + '</h1></div><div class="p-over"><small>Overview</small>' + md(p.overview) + "</div></section>" +
-      '<section class="p-top" id="top" style="--n:' + Math.max(1, (p.top_images || []).length) + '"></section>' +
+      '<section class="p-head"><div class="p-title"><div id="logo"></div><h1>' + esc(p.title) + '</h1></div>' + (p.overview ? '<div class="p-over"><small>Overview</small>' + md(p.overview) + "</div>" : "") + "</section>" +
+      ((p.top_images || []).length ? '<section class="p-top" id="top" style="--n:' + Math.min(2, p.top_images.length) + '"></section>' : "") +
       (p.about_text ? '<section class="about"><h2>About the project</h2><div class="body">' + md(p.about_text) + "</div></section>" : '<div style="height:clamp(60px,8vw,120px)"></div>') +
-      (p.intro_title ? '<section class="pax"><h2>' + esc(p.intro_title) + "</h2>" + md(p.intro_text) + "</section>" : "") +
+      ((p.intro_title || p.intro_text || p.intro_video) ? '<section class="pax">' + (p.intro_title ? "<h2>" + esc(p.intro_title) + "</h2>" : "") + md(p.intro_text) + '<div class="pax-v"></div></section>' : "") +
       '<section class="shots" id="shots"></section>';
-    var lg = $("#logo"); lg.style.display = "contents"; placeMedia(lg, p.logo, "image", "");
-    var lgBox = lg.firstChild; lgBox.style.cssText = "width:clamp(48px,6vw,86px);aspect-ratio:1;background:none"; 
-    (p.top_images || []).forEach(function (s) { placeMedia($("#top"), s, "image", p.title); });
+    var lg = $("#logo");
+    if (p.logo) { lg.style.display = "contents"; placeMedia(lg, p.logo, "image", ""); lg.firstChild.style.cssText = "width:clamp(48px,6vw,86px);aspect-ratio:1;background:none"; } else lg.remove();
+    var kind = function (m) { return m.type || (/\.(mp4|webm|mov|m4v)$/i.test(m.src || "") ? "video" : "image"); };
+    (p.top_images || []).slice(0, 2).forEach(function (s) { placeMedia($("#top"), s, "image", p.title); });
+    if (p.intro_video) placeMedia($(".pax-v"), p.intro_video, "video", p.intro_title); else { var pv = $(".pax-v"); if (pv) pv.remove(); }
     (p.media || []).forEach(function (m) {
-      var fig = document.createElement("figure"); fig.className = "shot" + (m.type === "image" ? " is-image" : "");
-      placeMedia(fig, m.src, m.type, m.caption);
-      if (m.caption) { var c = document.createElement("figcaption"); c.textContent = m.caption; fig.appendChild(c); }
+      var t = kind(m), h = m.heading || m.caption, fig = document.createElement("figure"); fig.className = "shot" + (t === "image" ? " is-image" : "");
+      if (h) { var c = document.createElement("h3"); c.textContent = h; fig.appendChild(c); }
+      placeMedia(fig, m.src, t, h);
       $("#shots").appendChild(fig);
     });
+    var go = function () { try { initReveals(); } catch (e) { console.error(e); } };
+    (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(function () { setTimeout(go, 700); });
     footer(site, '<div class="back-next"><a href="/">← BACK TO HOME</a><a href="' + (next ? "/" + next.slug : "/") + '">NEXT PROJECT →</a></div>');
   }
 

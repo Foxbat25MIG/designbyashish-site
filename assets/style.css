@@ -103,7 +103,9 @@ main{position:relative}
 .shot{width:min(100%,1120px)}
 .shot .media{aspect-ratio:16/9}
 .shot.is-image .media{aspect-ratio:auto;min-height:200px}
-.shot figcaption{text-align:center;font-size:12px;color:var(--muted);margin-top:10px}
+.shot h3{font-weight:400;font-size:clamp(18px,1.8vw,26px);letter-spacing:-.01em;margin:0 0 14px}
+.pax-v{width:min(100%,1120px);margin:28px auto 0;text-align:left}
+.pax-v .media{aspect-ratio:16/9}
 .nf{min-height:100svh;display:grid;place-content:center;gap:16px;text-align:center}.nf h1{font-size:72px;font-weight:500}
 
 @media (max-width:760px){
@@ -140,3 +142,8 @@ html:not(.js) #curtain,html:not(.js) #cband{display:none}
 #curtain .pr{white-space:pre}
 #curtain .pr i{font-style:normal;color:#3445ff}
 #curtain .pn{align-self:flex-end;font:500 clamp(72px,16vw,300px)/.8 var(--font);letter-spacing:-.06em;font-variant-numeric:tabular-nums}
+
+/* project pages: images/videos expand once from the corner, then stay full size */
+html.js body.project [data-img]{clip-path:inset(0 78% 70% 0)}
+body.project .shot,body.project .p-top,body.project .pax-v{position:relative}
+body.project .dim{position:absolute;z-index:3;font:400 11px/1 var(--mono);letter-spacing:.02em;color:var(--muted);white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .25s}
