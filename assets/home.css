@@ -41,7 +41,7 @@ body.home{
 
 /* footer: wide artwork, then contact row on the same 3 columns */
 .home .foot{padding:0 var(--pad) var(--pad)}
-.home .foot .art{max-width:none;margin:0;aspect-ratio:1600/529;background:none}
+.home .foot .art{max-width:none;margin:0;aspect-ratio:16/9;background:none}
 .home .foot .art>img{object-fit:contain}
 .home .contact{font-size:var(--small);column-gap:var(--gap);padding-top:1vw}
 .home .contact>span{text-transform:uppercase}
