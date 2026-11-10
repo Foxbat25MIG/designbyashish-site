@@ -3,24 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Title, description and social-share tags are generated from src/content/site.json at build time. -->
 <title>Ashish Kumar, HMI Designer</title>
-<meta name="description" content="Portfolio of Ashish Kumar, a multidisciplinary designer in Torino, Italy, specializing in automotive UX/UI, HMI and HUD systems.">
-<meta property="og:title" content="Ashish Kumar, HMI Designer">
-<meta property="og:description" content="Portfolio of Ashish Kumar, a multidisciplinary designer in Torino, Italy, specializing in automotive UX/UI, HMI and HUD systems.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://designbyashish.com/">
-<meta property="og:image" content="https://designbyashish.com/media/og-image.png">
-<meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="data:,">
-<link rel="stylesheet" href="/assets/lenis.css">
-<link rel="stylesheet" href="/assets/style.css">
-<link rel="stylesheet" href="/assets/home.css">
-<link rel="preload" href="/assets/fonts/space-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" type="image/svg+xml" href="%BASE_URL%favicon.svg">
 <script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}
 try{if(!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("js")}catch(e){}</script>
 </head>
 <body class="home">
-<div id="curtain"></div><div id="cband"></div>
+<div id="curtain"></div>
 <header class="topbar">
   <a id="email" class="email" href="#"></a>
   <p id="roleLine" class="role"><span class="arrow">↳</span><span id="roleText"></span></p>
@@ -52,7 +42,7 @@ try{if(!matchMedia("(prefers-reduced-motion: reduce)").matches)document.document
 
 <footer class="foot" id="foot"></footer>
 
-<script src="/assets/lenis.min.js"></script>
-<script src="/assets/main.js"></script>
+<noscript><p style="padding:24px;font:14px monospace">This portfolio needs JavaScript. Contact: see the links on the site.</p></noscript>
+<script type="module" src="/src/js/main.js"></script>
 </body>
 </html>
